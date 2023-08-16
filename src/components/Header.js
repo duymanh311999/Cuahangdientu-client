@@ -1,12 +1,16 @@
 import React from 'react';
 import logo from '../assets/logo_digital_new_250x.png';
-import icons from '../ultils/icons'
+import icons from '../ultils/icons';
+import {Link} from 'react-router-dom';
+import path from '../ultils/path'
 
 const {RiPhoneFill, MdEmail, BsHandbagFill, FaUserCircle } = icons
 const Header = () => {
     return(
-        <div className='border w-main flex justify-between h-[110px] py-[35px]'>
-            <img src={logo} alt='logo' className='w-[234px] object-contain'/>
+        <div className='w-main flex justify-between h-[110px] py-[35px]'>
+            <Link to={`/${path.HOME}`}>
+                <img src={logo} alt='logo' className='w-[234px] object-contain'/>
+            </Link>      
             <div className='flex text-[13px]'>
                 <div className='flex flex-col px-6 border-r items-center'>
                     <span className='flex gap-2 items-center'>
