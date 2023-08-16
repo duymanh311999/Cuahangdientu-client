@@ -8,9 +8,7 @@ export const appSlice = createSlice({
         isLoading: false
     },
     reducers: {
-    //   logout: (state) => {
-    //     state.isLoading = false
-    //   }
+    
     },
      // Code logic xử lý async action
   extraReducers: (builder) => {
@@ -23,7 +21,6 @@ export const appSlice = createSlice({
     // Khi thực hiện action login thành công (Promise fulfilled)
     builder.addCase(actions.getCategories.fulfilled, (state, action) => {
       // Tắt trạng thái loading, lưu thông tin user vào store
-      console.log('action',action)
       state.isLoading = false;
       state.categories = action.payload;
     });
@@ -37,6 +34,6 @@ export const appSlice = createSlice({
   },
 })
 
-export const {} = appSlice.actions
+// export const {} = appSlice.actions
 
 export default appSlice.reducer

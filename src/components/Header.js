@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/logo_digital_new_250x.png';
+import logo from '../assets/logo.png';
 import icons from '../ultils/icons';
 import {Link} from 'react-router-dom';
 import path from '../ultils/path'
