@@ -77,7 +77,7 @@ const [expireTime, setExpireTime] = useState(false);
                     alt='' 
                     className='w-full object-contain'
                 />
-                <span className='flex h-4'>{randerStarFromNumber(dealDaily, 20)?.map((item, index) =>(
+                <span className='flex h-4'>{randerStarFromNumber(dealDaily && dealDaily.totalRatings, 20)?.map((item, index) =>(
                         <span key={index}>{item}</span>
                     ))}
                 </span>

@@ -4,6 +4,8 @@ import New from '../assets/new.png';
 import {randerStarFromNumber, formatMoney} from '../ultils/helpers';
 import {SelectOption} from './';
 import icons from '../ultils/icons';
+import { Link } from 'react-router-dom';
+import path from '../ultils/path';
 
 const { HiMenu, AiFillHeart, FaEye} = icons;
 
@@ -11,8 +13,9 @@ const Product = ({productData, isNew}) => {
     const [isShowOption, setIsShowOption] = useState(false)
     return(
         <div className='w-full text-base px-[10px]'>
-           <div 
+           <Link 
             className='w-full border p-[15px] flex flex-col items-center'
+            to={`/${path.DETAIL_PRODUCT}/${productData?._id}/${productData?.title}`}
             onMouseEnter={e => {
                 e.stopPropagation()
                 setIsShowOption(true)
@@ -38,13 +41,13 @@ const Product = ({productData, isNew}) => {
                      
                 </div>
                 <div className='flex flex-col gap-1 mt-[15px] items-start w-full'>
-                        <span className='flex h-4'>{randerStarFromNumber(productData)?.map((item, index) =>(
+                        <span className='flex h-4'>{randerStarFromNumber(productData && productData.totalRatings)?.map((item, index) =>(
                             <span key={index}>{item}</span>
                         ))}</span>
                         <span className='line-clamp-1'>{productData && productData.title}</span>
                         <span>{`${formatMoney(productData && productData.price)}`} VNĐ</span>
                 </div>
-           </div>
+           </Link>
         </div>
     )
 }
