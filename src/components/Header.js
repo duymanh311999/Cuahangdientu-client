@@ -26,11 +26,14 @@ const Header = () => {
                     </span>
                     <span>Hỗ trợ 24/7</span>
                 </div>
-                <div className='flex items-center px-6 border-r justify-center gap-2'>
+                <div className='flex items-center px-6 border-r justify-center gap-2 cursor-pointer'>
                     <BsHandbagFill color='red'/>
                     <span>0 sản phẩm(s)</span>
                 </div>
-                <div className='flex items-center px-6 justify-center '><FaUserCircle size={24}/></div>
+                <div className='flex items-center px-6 justify-center gap-2 cursor-pointer'>
+                    <FaUserCircle />
+                    <span>Tài khoản</span>
+                </div>
             </div>
         </div>
     )

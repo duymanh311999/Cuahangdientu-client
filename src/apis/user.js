@@ -3,10 +3,14 @@ import axios  from '../axios';
 export const apiRegister = (data) => axios({
     url: '/user/register',
     method: 'post',
-    data,
-    withCredentials: true
+    data
 })
 
+export const apiFinalRegister = (token) => axios({
+    url: '/user/finalregister/' + token,
+    method: 'put',
+
+})
 
 export const apiLogin = (data) => axios({
     url: '/user/login',
@@ -22,8 +26,14 @@ export const apiForgotPassword = (data) => axios({
 })
 
 
+
 export const apiResetPassword = (data) => axios({
     url: '/user/resetpassword',
     method: 'put',
     data
+})
+
+export const apiGetCurrent = () => axios({
+    url: '/user/current',
+    method: 'get',
 })
