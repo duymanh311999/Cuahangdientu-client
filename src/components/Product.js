@@ -9,7 +9,7 @@ import path from '../ultils/path';
 
 const { HiMenu, AiFillHeart, FaEye} = icons;
 
-const Product = ({productData, isNew}) => {
+const Product = ({productData, isNew, normal}) => {
     const [isShowOption, setIsShowOption] = useState(false)
     return(
         <div className='w-full text-base px-[10px]'>
@@ -36,9 +36,10 @@ const Product = ({productData, isNew}) => {
                     <img src={productData?.thumb || 'https://3qleather.com/wp-content/themes/olympusinn/assets/images/default-placeholder.png' }
                     alt='' 
                     className='w-[274px] h-[274px] object-cover'
-                    />
-                    <img src={isNew ? New : Treading} alt='label' className='absolute top-[0] right-[0] w-[70px] h-[25px] object-cover'/>             
-                     
+                    />             
+                     {!normal && 
+                        <img src={isNew ? New : Treading} alt='label' className='absolute top-[0] right-[0] w-[70px] h-[25px] object-cover'/>
+                     }
                 </div>
                 <div className='flex flex-col gap-1 mt-[15px] items-start w-full'>
                         <span className='flex h-4'>{randerStarFromNumber(productData && productData.totalRatings)?.map((item, index) =>(
