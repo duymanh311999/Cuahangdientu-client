@@ -5,12 +5,12 @@
 
 .custom-slider button.slick-next{
     right: 80px;
-    z-index: 10000 !important;
+    z-index: 10;
 }
 
 .custom-slider button.slick-prev{
     left: 20px;
-    z-index: 10000;
+    z-index: 10;
 }
 
 

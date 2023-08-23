@@ -18,13 +18,17 @@ const settings = {
 
 const DetailProduct = () => {
     const {pid , title, category} = useParams();
-    const [product, setProduct] = useState(null)
-    const [relatedProduct, setRelatedProduct] = useState(null)
-    const [quantity, setQuantity] = useState(1)
+    const [product, setProduct] = useState(null);
+    const [currentImage, setcurrentImage] = useState(null);
+    const [relatedProduct, setRelatedProduct] = useState(null);
+    const [quantity, setQuantity] = useState(1);
+    const [update, setUpdate] = useState(false);
+    
     const fetchProductData = async () => {
         const response = await apiGetProduct(pid)
         if(response.success){
             setProduct(response.productDatas)
+            setcurrentImage(response?.productDatas?.thumb)
         }
     }
     const fetchProducts = async () => {
@@ -38,7 +42,19 @@ const DetailProduct = () => {
             fetchProductData()
             fetchProducts()
         }
+        window.scrollTo(0,0)
     },[pid])  
+
+    useEffect(() => {
+        if(pid){
+            fetchProductData()
+        }
+    },[update])  
+
+    const rerender = useCallback(() => {
+        setUpdate(!update)
+    },[update])
+
     const handleQuantity = useCallback((number) => {
         if(!Number(number) || Number(number)<1){
             return
@@ -47,6 +63,11 @@ const DetailProduct = () => {
         }
         
     },[quantity])
+
+    const handleClickImage = (e, item) => {
+        e.stopPropagation()
+        setcurrentImage(item)
+    }
 
     const handleChangeQuantity = useCallback((flag) => {
         if(flag === 'minus' && quantity === 1) return
@@ -69,15 +90,15 @@ const DetailProduct = () => {
             </div>
             <div className='w-main m-auto mt-4 flex'>
                 <div className='flex flex-col gap-4 w-2/5'>
-                    <div className='w-[458px] h-[458px] border'>
+                    <div className='w-[458px] h-[458px] border overflow-hidden'>
                         <ReactImageMagnify {...{
                             smallImage: {
                                 alt: 'img',
                                 isFluidWidth: true,
-                                src: product && product.thumb
+                                src: currentImage
                             },
                             largeImage: {
-                                src: product && product.thumb,
+                                src: currentImage,
                                 width: 1500,
                                 height: 1500,
                             }
@@ -90,7 +111,8 @@ const DetailProduct = () => {
                                     <img                    
                                         src={item} 
                                         alt='sub-product' 
-                                        className='border h-[143px] w-[143px] object-cover'
+                                        className='border h-[143px] w-[143px] object-cover cursor-pointer'
+                                        onClick={e => handleClickImage(e, item)}
                                     />
                                 </div>
                                 
@@ -134,7 +156,13 @@ const DetailProduct = () => {
                 </div>
             </div>
             <div className='w-main m-auto mt-8'>
-                <ProductInformation/>
+                <ProductInformation 
+                    totalRatings={product && product.totalRatings} 
+                    ratings={product && product.ratings }
+                    nameProduct={product && product.title}
+                    pid={product && product._id}
+                    rerender={rerender}
+                />
             </div>
             <div className='w-main m-auto mt-8'>
                 <h3 className='text-[20px] font-semibold py-[15px] border-b-2 border-main'>SẢN PHẨM TƯƠNG TỰ</h3> 

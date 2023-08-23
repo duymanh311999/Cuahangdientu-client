@@ -182,10 +182,12 @@ const Login = () => {
                     setInvalidFields={setInvalidFields}
                     />
                     <Button
-                    name={!isRegister ? 'Đăng nhập' : 'Đăng ký'}
                     handleOnClick={handleSumit}
                     fw
-                    />
+                    >
+                         {!isRegister ? 'Đăng nhập' : 'Đăng ký'}
+                    </Button>
+                       
                     <div className='flex items-center justify-between my-2 w-full text-sm'>
                         {!isRegister &&<span onClick={() => setIsForgotPassword(true)} className='text-blue-500 hover:underline cursor-pointer'>Quên mật khẩu?</span>}
                         {!isRegister &&<span 

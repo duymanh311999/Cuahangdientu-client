@@ -120,15 +120,6 @@ export const productInforTabs = [
         Shopify Shop yêu cầu tất cả các sản phẩm phải được kiểm tra kỹ lưỡng TRƯỚC KHI bạn mang về nhà để đảm bảo không có bất ngờ nào xảy ra. Nhóm của chúng tôi sẵn lòng mở tất cả các gói hàng và sẽ hỗ trợ trong quá trình kiểm tra. Sau đó chúng tôi sẽ niêm phong lại các kiện hàng để vận chuyển an toàn. Chúng tôi khuyến khích tất cả khách hàng mang theo miếng đệm hoặc chăn để bảo vệ đồ đạc trong quá trình vận chuyển cũng như dây thừng hoặc dây buộc. Shopify Shop sẽ không chịu trách nhiệm đối với hư hỏng xảy ra sau khi rời khỏi cửa hàng hoặc trong quá trình vận chuyển. Người mua có trách nhiệm đảm bảo rằng các mặt hàng chính xác được chọn và ở trong tình trạng tốt.
         `
     },
-    {
-        id:5,
-        name: 'ĐÁNH GIÁ CỦA KHÁCH HÀNG',
-        content: `
-        PHẢN HỒI KHÁCH HÀNG
-        Dựa trên 5 đánh giá
-        Viết đánh giá
-        `
-    },
 ]
 
 export const color = [
@@ -179,4 +170,28 @@ export const sorts = [
         value: 'createdAt',
         text: 'Cũ nhất',
     },
+]
+
+export const voteOptions = [ 
+    {
+        id:1,
+        text: 'Cực tệ'
+    },
+    {
+        id:2,
+        text: 'Tệ'
+    },
+    {
+        id:3,
+        text: 'Bình thường'
+    },
+    {
+        id:4,
+        text: 'Tốt'
+    },
+    {
+        id:5,
+        text: 'Tuyệt vời'
+    },
+   
 ]
