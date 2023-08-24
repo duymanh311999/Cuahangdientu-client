@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useState } from 'react';
 import {productInforTabs} from '../ultils/contants';
-import {Votebar, Button, VoteOption} from './';
-import {randerStarFromNumber} from '../ultils/helpers';
+import {Votebar, Button, VoteOption, Comment} from './';
+import {randerStarFromNumber} from '../ultils/helpers'; 
 import { apiRatings } from '../apis';
 import { useDispatch, useSelector } from 'react-redux';
 import {showModal} from '../store/app/appSlice';
@@ -21,7 +21,7 @@ const ProductInformation = ({totalRatings, ratings, nameProduct, pid, rerender})
             alert('Vui lòng điền thông tin đánh giá')
             return
         }
-        await apiRatings({star: score, comment: comment, pid})
+        await apiRatings({star: score, comment: comment, pid, updatedAt: Date.now()})
         dispatch(showModal({isShowModal: false, modalChildren: null}))
         rerender()     
     }
@@ -61,25 +61,21 @@ const ProductInformation = ({totalRatings, ratings, nameProduct, pid, rerender})
                         {item.name}
                     </span>
                 ))}
-                   <div 
-                        className={`p-2 px-4 cursor-pointer ${activedTabs === 5 ? 'bg-white border border-b-0' : 'bg-gray-200'}`} 
-                        onClick={() => setActivedTabs(5)}
-                    >
-                        ĐÁNH GIÁ 
-                    </div>
+                  
             </div>
-            <div className='w-full border p-4'>  
+            <div className='w-full border p-4'>       
                 {productInforTabs.some(item => item.id === activedTabs) && productInforTabs.find(item => item.id === activedTabs)?.content  }   
-                {activedTabs === 5 && <div className='flex flex-col p-4'>
-                    <div className='flex'>
-                        <div className='flex-4 border flex flex-col items-center justify-center border-red-500'>
+            </div>        
+            <div className='flex flex-col w-main py-8'>
+                    <div className='flex border'>
+                        <div className='flex-4 border flex flex-col items-center justify-center'>
                             <span className='font-semibold text-3xl'>{`${totalRatings}/5`}</span>
                             <span className='flex items-center gap-1'>{randerStarFromNumber(totalRatings)?.map((item, index) => (
                                 <span key={index}>{item}</span>
                             ))}</span>
                             <span className='text-sm'>{`${ratings && ratings.length} Đánh giá`}</span>
                         </div>
-                    <div className='flex-6 border flex flex-col p-4 gap-2'>
+                    <div className='flex-6 flex flex-col p-4 gap-2'>
                         {Array.from(Array(5).keys()).reverse().map(item => (
                             <Votebar
                                 key={item}
@@ -96,9 +92,19 @@ const ProductInformation = ({totalRatings, ratings, nameProduct, pid, rerender})
                             handleOnClick={handleVoteNow}
                         >
                             Đánh giá</Button>
-                    </div>            
-                </div>}   
-            </div>
+                    </div>  
+                    <div className='flex flex-col gap-4'>
+                        {ratings?.map(item => 
+                            <Comment
+                                key={item._id}
+                                star={item.star}
+                                updatedAt={item.updatedAt}
+                                comment={item.comment}
+                                name={`${item?.postedBy?.firstname} ${item?.postedBy?.lastname}`}
+                            />
+                        )}
+                    </div>          
+            </div>     
         </div>
     )
 }

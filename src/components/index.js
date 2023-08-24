@@ -24,3 +24,7 @@ export { default as Votebar} from './Votebar'
 export { default as Ratings} from './Ratings'
 export { default as VoteOption} from './VoteOption'
 export { default as Modal} from './Modal'
+export { default as Comment} from './Comment'
+
+export { default as Pagination} from './Pagination/Pagination'
+export { default as PagiItem} from './Pagination/PagiItem'
