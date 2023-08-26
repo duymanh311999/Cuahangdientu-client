@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from 'react';
 import icons from '../ultils/icons';
 import { color } from '../ultils/contants';
-import { createSearchParams, useNavigate, useParams } from 'react-router-dom';
+import { createSearchParams, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { apiGetProducts } from '../apis';
 import useDebounce from '../hooks/useDebounce'
 
@@ -11,6 +11,7 @@ const SearchItem = ({name, activeClick, changeActiveFitler, type = 'checkbox'}) 
     const navigate = useNavigate();
     const {category} = useParams()
     const [selected, setSelected] = useState([]);
+    const [params] = useSearchParams()
     const [price, setPrice] = useState({
         from: '',
         to: ''
@@ -26,17 +27,24 @@ const SearchItem = ({name, activeClick, changeActiveFitler, type = 'checkbox'}) 
       changeActiveFitler(null)
     }
     useEffect(() => {
-        if(selected.length > 0) {
-            navigate({
-                pathname: `/${category}`,
-                search: createSearchParams({
-                    color: selected.join(',')
-                }).toString()
-            })
-        }else{
-            navigate(`/${category}`)
+        let param = []
+        for(let i of params.entries()){
+            param.push(i)
         }
-      
+        const queries = {}
+        for(let i of params){
+          queries[i[0]] = i[1]
+        }
+        if(selected.length > 0) { 
+            queries.color = selected.join(',')
+            queries.page = 1
+        }else{
+            delete queries.color
+        }
+        navigate({
+            pathname: `/${category}`,
+            search: createSearchParams(queries).toString()
+        })
     },[selected])
 
     const fetchBestPriceProduct = async () => {
@@ -56,17 +64,30 @@ const SearchItem = ({name, activeClick, changeActiveFitler, type = 'checkbox'}) 
 const deboucePriceFrom = useDebounce(price.from , 500)
 const deboucePriceTo = useDebounce(price.to , 500)
     useEffect(() => {
-        const data = {};
-        if(Number(price.from)>0){
-            data.from = price.from
-        }
-        if(Number(price.to)>0){
-            data.to = price.to
-        }
-        navigate({
-            pathname: `/${category}`,
-            search: createSearchParams(data).toString()
-        })  
+            let param = []
+            for(let i of params.entries()){
+                param.push(i)
+            }
+            const queries = {}
+            for(let i of params){
+              queries[i[0]] = i[1]
+            }           
+            if(Number(price.from)>0){
+                queries.from = price.from
+            }else{
+                delete queries.from
+            }
+            if(Number(price.to)>0){
+                queries.to = price.to
+            }
+            else{
+                delete queries.to
+            }
+            queries.page = 1
+            navigate({
+                pathname: `/${category}`,
+                search: createSearchParams(queries).toString()
+            })
     },[deboucePriceFrom, deboucePriceTo])
 
     return(

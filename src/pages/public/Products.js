@@ -22,7 +22,7 @@ const Products = () => {
     const fetchProductsByCategory = async (queries) => {
         const response = await apiGetProducts(queries)
         if(response.success){
-            setProducts(response.products)
+            setProducts(response)
         }
     }
 
@@ -46,7 +46,7 @@ const Products = () => {
                 ]
             }
             delete queries.price
-        }
+        }else{
             if(queries.from){
                 queries.price = {gte: queries.from}
                 delete queries.from
@@ -54,12 +54,15 @@ const Products = () => {
             if(queries.to){
                 queries.price = {lte: queries.to}
                 delete queries.to
-            }     
+            }   
+        }
+              
             delete queries.to
             delete queries.from
           
             const q ={ ...priceQuery, ...queries}
         fetchProductsByCategory(q)
+        window.scrollTo(0,0)
     },[params])
 
     const changeActiveFitler = useCallback((name) => {
@@ -75,10 +78,12 @@ const Products = () => {
     },[sort])
 
     useEffect(() => {
-        navigate({
-            pathname: `/${category}`,
-            search: createSearchParams({sort}).toString()
-        })
+        if(sort){
+            navigate({
+                pathname: `/${category}`,
+                search: createSearchParams({sort}).toString()
+            })
+        }
     },[sort])
     return(
         <div className='w-full'>
@@ -117,7 +122,7 @@ const Products = () => {
                     breakpointCols={breakpointColumnsObj}
                     className="my-masonry-grid flex mx-[-10px]"
                     columnClassName="my-masonry-grid_column">
-                    {products && products.map(item => (
+                    {products?.products?.map(item => (
                           <Product
                           key={item._id}
                           pid={item.id}
@@ -126,9 +131,11 @@ const Products = () => {
                       />
                     ))}
                 </Masonry>
-            </div>
-            <div className='m-auto my-4 w-main flex justify-end'>
-                <Pagination/>
+            </div>   
+              <div className='m-auto my-4 w-main flex justify-end'>
+              <Pagination 
+                  totalCount={products?.counts}  
+              />
             </div>
         </div>
     )
