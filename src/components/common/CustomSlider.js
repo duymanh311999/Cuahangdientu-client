@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {Product} from '../components'
+import {Product} from '..'
 import Slider from "react-slick";
 
 const settings = {

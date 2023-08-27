@@ -1,5 +1,5 @@
 import React from 'react';
-import {randerStarFromNumber, formatMoney} from '../ultils/helpers';
+import {randerStarFromNumber, formatMoney} from 'ultils/helpers';
 
 const ProductCard = ({image, title,totalRatings,price}) => {
     return(

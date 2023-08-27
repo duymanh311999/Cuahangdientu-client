@@ -1,8 +1,9 @@
-import {RiPhoneFill, RiTruckFill} from 'react-icons/ri' 
-import {MdEmail} from 'react-icons/md'
+import {RiPhoneFill, RiTruckFill, RiBillLine} from 'react-icons/ri' 
+import {MdEmail, MdGroups2, MdProductionQuantityLimits, MdOutlineManageAccounts} from 'react-icons/md'
 import {BsHandbagFill, BsShieldShaded, BsReplyFill} from 'react-icons/bs'
 import {FaUserCircle, FaEye, FaTty} from 'react-icons/fa'
-import {AiFillHome, AiFillStar, AiOutlineStar, AiFillHeart, AiFillGift, AiOutlineDown} from 'react-icons/ai'
+import {AiFillHome, AiFillStar, AiOutlineStar, AiFillCaretDown, AiFillCaretUp,
+AiFillHeart, AiFillGift, AiOutlineDown} from 'react-icons/ai'
 import {HiMenu} from 'react-icons/hi'
 import {IoIosArrowForward} from 'react-icons/io'
 import {LuLogOut} from 'react-icons/lu'
@@ -28,6 +29,12 @@ const icons = {
     FaTty,
     AiOutlineDown,
     BiDotsHorizontalRounded,
+    MdGroups2,
+    MdProductionQuantityLimits,
+    RiBillLine,
+    AiFillCaretDown,
+    AiFillCaretUp,
+    MdOutlineManageAccounts,
 }
 
 export default icons

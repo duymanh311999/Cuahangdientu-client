@@ -1,12 +1,12 @@
-import React, { memo, useCallback, useState } from 'react';
-import {productInforTabs} from '../ultils/contants';
-import {Votebar, Button, VoteOption, Comment} from './';
-import {randerStarFromNumber} from '../ultils/helpers'; 
-import { apiRatings } from '../apis';
+import React, { memo, useState } from 'react';
+import {productInforTabs} from 'ultils/contants';
+import {Votebar, Button, VoteOption, Comment} from 'components';
+import {randerStarFromNumber} from 'ultils/helpers'; 
+import { apiRatings } from 'apis';
 import { useDispatch, useSelector } from 'react-redux';
-import {showModal} from '../store/app/appSlice';
+import {showModal} from 'store/app/appSlice';
 import Swal from 'sweetalert2';
-import path from '../ultils/path';
+import path from 'ultils/path';
 import { useNavigate } from 'react-router-dom';
 
 

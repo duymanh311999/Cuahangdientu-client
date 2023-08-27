@@ -1,9 +1,9 @@
 import React, {useState, useEffect, memo}  from 'react';
-import icons from '../ultils/icons';
-import { apiGetProducts } from '../apis/product';
-import {randerStarFromNumber, secondsToHms} from '../ultils/helpers';
-import {formatMoney} from '../ultils/helpers';
-import { Countdown } from './';
+import icons from 'ultils/icons';
+import { apiGetProducts } from 'apis/product';
+import {randerStarFromNumber, secondsToHms} from 'ultils/helpers';
+import {formatMoney} from 'ultils/helpers';
+import { Countdown } from 'components';
 import moment from 'moment';
 
 const {AiFillStar, HiMenu} = icons; 

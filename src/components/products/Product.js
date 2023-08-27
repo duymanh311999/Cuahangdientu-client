@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
-import Treading from '../assets/trending.png';
-import New from '../assets/new.png';
-import {randerStarFromNumber, formatMoney} from '../ultils/helpers';
-import {SelectOption} from './';
-import icons from '../ultils/icons';
+import Treading from 'assets/trending.png';
+import New from 'assets/new.png';
+import {randerStarFromNumber, formatMoney} from 'ultils/helpers';
+import {SelectOption} from 'components';
+import icons from 'ultils/icons';
 import { Link } from 'react-router-dom';
-import path from '../ultils/path';
 
 const { HiMenu, AiFillHeart, FaEye} = icons;
 

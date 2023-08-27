@@ -195,3 +195,44 @@ export const voteOptions = [
     },
    
 ]
+
+const {MdOutlineManageAccounts, MdGroups2, MdProductionQuantityLimits, RiBillLine} = icons
+export const adminSidebar = [
+    {
+        id:1,
+        type: 'SINGLE',
+        text:'Quản lý chung',
+        path:`/${path.ADMIN}/${path.DASHBOARD}`,
+        icon: <MdOutlineManageAccounts size={20}/>
+    },
+    {
+        id:2,
+        type: 'SINGLE',
+        text:'Quản lý người dùng',
+        path:`/${path.ADMIN}/${path.MANAGE_USER}`,
+        icon: <MdGroups2 size={20}/>
+    },
+    {
+        id:3,
+        type: 'PARENT',
+        text:'Quản lý sản phẩm',
+        icon: <MdProductionQuantityLimits size={20}/>,
+        submenu: [
+            {
+                text: 'Thêm sản sản phẩm',
+                path:`/${path.ADMIN}/${path.CREATE_PRODUCTS}`,
+            },
+            {
+                text: 'Kho sản phẩm',
+                path:`/${path.ADMIN}/${path.MANAGE_PRODUCTS}`,
+            }
+        ]
+    },
+    {
+        id:4,
+        type: 'SINGLE',
+        text:'Quản lý đơn hàng',
+        path:`/${path.ADMIN}/${path.MANAGE_ORDER}`,
+        icon: <RiBillLine size={20}/>
+    },
+]
