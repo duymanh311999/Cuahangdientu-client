@@ -236,3 +236,25 @@ export const adminSidebar = [
         icon: <RiBillLine size={20}/>
     },
 ]
+
+export const roles = [
+    {
+        code: 1999,
+        value: 'Admin'
+    },
+    {
+        code: 9111,
+        value: 'User'
+    }
+ ]
+
+ export const blockStatus = [
+    {
+        code: true,
+        value: 'Blocked'
+    },
+    {
+        code: false,
+        value: 'Active'
+    }
+ ]

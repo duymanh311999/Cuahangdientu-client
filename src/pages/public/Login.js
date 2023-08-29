@@ -146,7 +146,7 @@ const Login = () => {
             <div className='absolute top-0 bottom-0 left-1/2 right-0 items-center justify-center flex'>
                 <div className='p-8 bg-white flex flex-col items-center rounded-md min-w-[500px]'>
                     <h1 className='text-main text-[28px] font-semibold mb-8'>{isRegister ? 'Đăng ký' : 'Đăng nhập'}</h1>
-                    {isRegister && <div className='flex items-center gap-2'>
+                    {isRegister && <div className='flex items-center gap-2' >
                       <InputField 
                         value={payload.firstname}
                         setValue={setPayload}

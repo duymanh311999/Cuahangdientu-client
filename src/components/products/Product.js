@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useState} from 'react';
 import Treading from 'assets/trending.png';
 import New from 'assets/new.png';
 import {randerStarFromNumber, formatMoney} from 'ultils/helpers';
@@ -52,4 +52,4 @@ const Product = ({productData, isNew, normal}) => {
     )
 }
 
-export default Product
+export default memo(Product)
