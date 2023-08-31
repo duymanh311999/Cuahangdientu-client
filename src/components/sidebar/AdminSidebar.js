@@ -1,7 +1,7 @@
 import React, { memo, Fragment, useState } from 'react';
 import logo from 'assets/logo.png';
 import {adminSidebar} from 'ultils/contants'
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import clsx from 'clsx';
 import icons from 'ultils/icons';
 
@@ -22,10 +22,10 @@ const AdminSidebar = () => {
 
     return(
         <div className='bg-white h-full py-4'>
-            <div className='flex flex-col justify-center items-center p-4 gap-2'>
+            <Link to={'/'} className='flex flex-col justify-center items-center p-4 gap-2'>
                 <img src={logo} alt='logo' className='w-[200px] object-contain'/>
                 <small>Trang quản trị viên</small>
-            </div>
+            </Link>
             <div>
                 {adminSidebar.map(item => (
                     <Fragment key = {item.id}>

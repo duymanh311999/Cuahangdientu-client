@@ -95,3 +95,7 @@
   .w500 {
     width: 500px;
   }
+
+  code{
+    white-space: inherit;
+  }

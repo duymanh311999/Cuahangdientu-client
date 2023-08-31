@@ -5,7 +5,8 @@ import { Breadcrumb, Button, SelectQuantity, ProductExtraInforItem, ProductInfor
 import Slider from "react-slick";
 import ReactImageMagnify from 'react-image-magnify';
 import {formatMoney, fotmatPrice, randerStarFromNumber} from '../../ultils/helpers';
-import {productExtraInforItem} from '../../ultils/contants'
+import {productExtraInforItem} from '../../ultils/contants';
+import DOMPurify from 'dompurify';
 
 const settings = {
     dots: false,
@@ -130,7 +131,9 @@ const DetailProduct = () => {
                         <span className='text-sm text-main italic'>{`(Đã bán:${product && product.sold})`}</span> 
                    </div>
                    <ul className='list-disc text-sm text-gray-500 pl-5'>
-                        {product?.description?.map((item, index) => (<li className='leading-6' key={index}>{item}</li>))}
+                        {product?.description?.length > 1 && product?.description?.map((item, index) => (<li className='leading-6' key={index}>{item}</li>))}
+                        {product?.description?.length === 1 && 
+                        <div className='text-sm' dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(product?.description[0])}}></div>}
                    </ul>
                    <div className='flex flex-col gap-8'>
                         <div className='flex items-center gap-4'>
