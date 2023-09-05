@@ -1,34 +1,50 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import {InputFrom, Seleact, Button, MarkdownEditor, Loading} from 'components';
-import { useForm } from 'react-hook-form';
+import { InputFrom, MarkdownEditor, Seleact, Button, Loading } from 'components';
+import React, { memo, useState, useEffect, useCallback } from 'react';
 import {useSelector, useDispatch} from 'react-redux'; 
-import { validate, getBase64 } from 'ultils/helpers'
+import { useForm } from 'react-hook-form';
+import {validate, getBase64 } from 'ultils/helpers'
+import { apiUpdateProduct } from 'apis';
 import { toast } from 'react-toastify';
-import { apiCreateProduct } from 'apis';
 import {showModal} from 'store/app/appSlice';
-// import {ImBin2} from 'react-icons/im'
-// import { color } from 'ultils/contants';
 
 
-const CreateProduct = () => {
+const UpdateProduct = ({editProduct, render, setEditProduct}) => {
     const {categories} = useSelector(state => state.app)
     const dispatch = useDispatch()
-    const {register, formState: {errors}, reset, handleSubmit, watch} = useForm();
-  
-     const [payload, setPayload] = useState({
+    const {register, handleSubmit, formState:{errors}, reset, watch} = useForm();
+    const [payload, setPayload] = useState({
         description: ''
      })
      const [preview, setPreview] = useState({
         thumb: null,
         images: []
      })
-     const [invalidFields, setInvalidFields] = useState([])
 
+     useEffect(() => {
+        reset({
+            title: editProduct?.title || '',
+            price: editProduct?.price || '',
+            quantity: editProduct?.quantity || '',
+            color: editProduct?.color || '',
+            category: editProduct?.category || '',
+            brand: editProduct?.brand?.toLowerCase() || '',
+        })
+        setPayload({
+            description: typeof editProduct?.description === 'object' ? editProduct?.description?.join(', ') : editProduct?.description
+        })
+        setPreview({
+            thumb: editProduct?.thumb || '',
+            images: editProduct?.images || [],
+        })
+     },[editProduct])
+
+
+     const [invalidFields, setInvalidFields] = useState([])
+ 
      const changeValue = useCallback((e) => {
         setPayload(e)
      },[payload])
-    //  const [hoverElm, setHoverElm] = useState(null)
-
+     
      const handlePreviewThumb = async (file) => {
         const base64Thumb = await getBase64(file)
         setPreview(prev => ({...prev, thumb: base64Thumb}))
@@ -42,72 +58,61 @@ const CreateProduct = () => {
                 return
             }
             const base64 = await getBase64(file)
-            imagesPreview.push({name: file.name, path: base64})
+            imagesPreview.push(base64)
         }
         setPreview(prev => ({...prev, images: imagesPreview}))
     }
-   
-     useEffect(() => {
-        handlePreviewThumb(watch('thumb')[0])
+
+    useEffect(() => {
+        if(watch('thumb') instanceof FileList && watch('thumb').length > 0){
+            handlePreviewThumb(watch('thumb')[0])
+        }
      },[watch('thumb')])
 
      useEffect(() => {
-        handlePreviewImages(watch('images'))
+        if(watch('images') instanceof FileList && watch('images').length > 0){
+            handlePreviewImages(watch('images'))
+        }    
      },[watch('images')])
 
-     const handleCreateProduct = async (data) => {
+     const handleUpdateProduct = async (data) => {
         const invalids = validate(payload, setInvalidFields)
         if(invalids === 0){
             if(data.category){
-                data.category = categories?.find(el => el._id === data.category)?.title              
+                data.category = categories?.find(el => el.title === data.category)?.title              
             }
             const finalPayload = {...data, ...payload}
-            console.log('finalPayload',finalPayload)
+            finalPayload.thumb = data?.thumb?.length === 0 ? preview.thumb : data.thumb[0]
             const formData = new FormData()
             for(let i of Object.entries(finalPayload)) {
                 formData.append(i[0], i[1])
             }
-            if(finalPayload.thumb){
-                formData.append('thumb', finalPayload.thumb[0])
-            }
-            if(finalPayload.images){
-                for ( let image of finalPayload.images){
-                    formData.append('images', image)
-                }
+            finalPayload.images = data?.images?.length === 0 ? preview.images : data.images
+            for ( let image of finalPayload.images){
+                formData.append('images', image)
             }
             dispatch(showModal({isShowModal: true, modalChildren: <Loading/>}))
-            const response = await apiCreateProduct(formData)
+            const response = await apiUpdateProduct(formData, editProduct._id)
             dispatch(showModal({isShowModal: false, modalChildren: null}))
             if(response.success){
                 toast.success(response.message)
-                reset()
-                setPayload({
-                    thumb: '',
-                    images: []
-                })
+                render()
+                setEditProduct(null)
             }else{
                 toast.error(response.message)
             }
         }   
     }  
 
-    // const handleRemoveImage = (name) => {
-    //     const files = [...watch('images')]
-    //     reset({
-    //         images: files?.filter(el => el.name !== name)
-    //     })
-    //     if(preview.images?.some(el => el.name === name)){
-    //         setPreview(prev => ({...prev, images: prev.images?.filter(el => el.name !== name)}))
-    //     }
-    // }
-
     return(
-        <div className='w-full'>
-            <h1 className='h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b'>
-                <span>Thêm mới sản phẩm</span>
-            </h1>
+        <div className='w-full flex flex-col gap-4 relative'>
+            <div className='h-[69px] w-full'></div>        
+            <div className='p-4 border-b flex items-center justify-between right-0 left-[327px] fixed top-0 bg-gray-100'>
+                <h1 className='text-3xl font-bold tracking-tight'>Sửa sản phẩm</h1>
+                <span className='text-main hover:underline cursor-pointer' onClick={() => setEditProduct(null)}>Quay lại</span>
+            </div>
             <div className='p-4'>
-                <form onSubmit={handleSubmit(handleCreateProduct)}>
+                <form onSubmit={handleSubmit(handleUpdateProduct)}>
                     <InputFrom
                         label='Tên sản phẩm'
                         register={register}
@@ -154,7 +159,7 @@ const CreateProduct = () => {
                     <div className='w-full my-6 flex gap-4'>
                         <Seleact
                              label='Nhóm sản phẩm'
-                             options={categories?.map(item =>({code: item._id, value: item.title}))}
+                             options={categories?.map(item =>({code: item.title, value: item.title}))}
                              errors={errors}
                              register={register}
                              id='category'
@@ -164,7 +169,7 @@ const CreateProduct = () => {
                         />
                          <Seleact
                              label='Thương hiệu'
-                             options={categories?.find(el => el._id === watch('category'))?.brand?.map(el => ({code: el, value: el}))}
+                             options={categories?.find(el => el.title === watch('category'))?.brand?.map(el => ({code: el.toLowerCase(), value: el}))}
                              errors={errors}
                              register={register}
                              id='brand'
@@ -178,13 +183,14 @@ const CreateProduct = () => {
                         label='Miêu tả sản phẩm'    
                         invalidFields={invalidFields}
                         setInvalidFields={setInvalidFields}
+                        value={payload.description}
                     />
                     <div className='flex flex-col gap-2 my-8'>
                         <label className='font-semibold' htmlFor='thumb'>Thêm ảnh chính</label>
                         <input 
                             type='file' 
                             id='thumb'
-                            {...register('thumb',{required: 'Yêu cầu phải có thông tin này'})}
+                            {...register('thumb')}
                             errors={errors}
                         />
                          {errors['thumb'] && <small className='text-xs text-red-500'>{errors['thumb']?.message}</small>}
@@ -198,7 +204,7 @@ const CreateProduct = () => {
                             type='file' 
                             id='products'
                             multiple
-                            {...register('images',{required: 'Yêu cầu phải có thông tin này'})}
+                            {...register('images')}
                         />
                         {errors['images'] && <small className='text-xs text-red-500'>{errors['images']?.message}</small>}
                     </div>
@@ -206,25 +212,17 @@ const CreateProduct = () => {
                         {preview.images?.map ((item, index) => (
                             <div 
                                 key={index} 
-                                // onMouseEnter={() => setHoverElm(item.name)} 
-                                // onMouseLeave={() => setHoverElm(null)}
                                 className='w-fit relative'
                             >
-                                <img src={item.path} alt='product' className='w-[200px] object-contain'/>
-                                {/* {hoverElm === item.name && <div 
-                                className='absolute cursor-pointer inset-0 bg-overlay flex items-center justify-center'
-                                onClick={() => handleRemoveImage(item.name)}
-                                >
-                                    <ImBin2 size={24} color='white'/>
-                                </div>} */}
+                                <img src={item} alt='product' className='w-[200px] object-contain'/>
                             </div>
                         ))}
                     </div>}
-                    <Button type='submit'>Thêm sản phẩm mới</Button>
+                    <Button type='submit'>Sửa sản phẩm</Button>
                 </form>
             </div>
         </div>
     )
 }
 
-export default CreateProduct
+export default memo(UpdateProduct)

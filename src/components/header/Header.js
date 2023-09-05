@@ -1,4 +1,4 @@
-import React, {Fragment, memo} from 'react';
+import React, {Fragment, memo, useState} from 'react';
 import logo from 'assets/logo.png';
 import icons from 'ultils/icons';
 import {Link} from 'react-router-dom';
@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux';
 const {RiPhoneFill, MdEmail, BsHandbagFill, FaUserCircle } = icons
 const Header = () => {
     const {current} = useSelector(state => state.user)
+    const [isShowOption, setIsShowOption] = useState(false)
+
     return(
         <div className='w-main flex justify-between h-[110px] py-[35px]'>
             <Link to={`/${path.HOME}`}>
@@ -33,13 +35,16 @@ const Header = () => {
                         <BsHandbagFill color='red'/>
                         <span>0 sản phẩm(s)</span>
                     </div>
-                    <Link 
-                        className='flex items-center px-6 justify-center gap-2 cursor-pointer'
-                        to={+current?.role === 1999 ? `/${path.ADMIN}/${path.DASHBOARD}` : `/${path.MEMBER}/${path.PERSONAL}`}
+                    <div 
+                        className='flex items-center px-6 justify-center gap-2 cursor-pointer relative'
+                        onClick={() => setIsShowOption(prev => !prev)}
                     >
                         <FaUserCircle />
                         <span>Tài khoản</span>
-                    </Link>
+                        <div className='absolute top-full left-0 bg-gray-100 border min-w-[200px] py-2'>
+                            <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.MEMBER}/${path.PERSONAL}`}>Thông tin cá nhân</Link>
+                        </div>
+                    </div>
                 </Fragment>}      
             </div>
         </div>

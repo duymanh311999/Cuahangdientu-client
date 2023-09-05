@@ -153,6 +153,7 @@ const Login = () => {
                         nameKey='firstname'
                         invalidFields={invalidFields}
                         setInvalidFields={setInvalidFields}
+                        fullWidth
                         />
                         <InputField
                         value={payload.lastname}
@@ -160,6 +161,7 @@ const Login = () => {
                         nameKey='lastname'
                         invalidFields={invalidFields}
                         setInvalidFields={setInvalidFields}
+                        fullWidth
                         />
                       </div>
                     }
@@ -169,6 +171,7 @@ const Login = () => {
                     nameKey='email'
                     invalidFields={invalidFields}
                     setInvalidFields={setInvalidFields}
+                    fullWidth
                     />
                     {isRegister &&
                     <InputField
@@ -177,6 +180,7 @@ const Login = () => {
                     nameKey='mobile'
                     invalidFields={invalidFields}
                     setInvalidFields={setInvalidFields}
+                    fullWidth
                     />}
                      <InputField
                     value={payload.password}
@@ -185,6 +189,7 @@ const Login = () => {
                     type='password'
                     invalidFields={invalidFields}
                     setInvalidFields={setInvalidFields}
+                    fullWidth
                     />
                     <Button
                     handleOnClick={handleSumit}
