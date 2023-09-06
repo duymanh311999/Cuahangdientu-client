@@ -1,18 +1,18 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, memo } from 'react';
 import {InputFrom, Seleact, Button, MarkdownEditor, Loading} from 'components';
 import { useForm } from 'react-hook-form';
-import {useSelector, useDispatch} from 'react-redux'; 
+import {useSelector} from 'react-redux'; 
 import { validate, getBase64 } from 'ultils/helpers'
 import { toast } from 'react-toastify';
 import { apiCreateProduct } from 'apis';
 import {showModal} from 'store/app/appSlice';
+import withBaseComponent from 'hocs/withBaseComponent';
 // import {ImBin2} from 'react-icons/im'
 // import { color } from 'ultils/contants';
 
 
-const CreateProduct = () => {
+const CreateProduct = (props) => {
     const {categories} = useSelector(state => state.app)
-    const dispatch = useDispatch()
     const {register, formState: {errors}, reset, handleSubmit, watch} = useForm();
   
      const [payload, setPayload] = useState({
@@ -75,9 +75,9 @@ const CreateProduct = () => {
                     formData.append('images', image)
                 }
             }
-            dispatch(showModal({isShowModal: true, modalChildren: <Loading/>}))
+            props.dispatch(showModal({isShowModal: true, modalChildren: <Loading/>}))
             const response = await apiCreateProduct(formData)
-            dispatch(showModal({isShowModal: false, modalChildren: null}))
+            props.dispatch(showModal({isShowModal: false, modalChildren: null}))
             if(response.success){
                 toast.success(response.message)
                 reset()
@@ -90,7 +90,7 @@ const CreateProduct = () => {
             }
         }   
     }  
-
+    
     // const handleRemoveImage = (name) => {
     //     const files = [...watch('images')]
     //     reset({
@@ -227,4 +227,4 @@ const CreateProduct = () => {
     )
 }
 
-export default CreateProduct
+export default withBaseComponent(memo(CreateProduct))

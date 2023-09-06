@@ -1,33 +1,33 @@
 import React, { memo, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import path from 'ultils/path';
 import { getCurrent } from 'store/user/asyncActions';
-import {useDispatch, useSelector} from 'react-redux';
+import { useSelector} from 'react-redux';
 import icons from 'ultils/icons';
 import { logout, clearMessage } from 'store/user/userSlice';
 import Swal from 'sweetalert2';
+import withBaseComponent from 'hocs/withBaseComponent';
 
 const {LuLogOut} = icons
 
-const TopHeader = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate()
+const TopHeader = (props) => {
+
     const {isLoggedIn, current, mes} = useSelector(state => state.user)
     useEffect(()=> {
         const setTimeoutId = setTimeout(() => {
             if(isLoggedIn){
-                dispatch(getCurrent())
+                props.dispatch(getCurrent())
             }
         },300)
         return () => {
             clearTimeout(setTimeoutId)
         }
-    },[dispatch, isLoggedIn])
+    },[props.dispatch, isLoggedIn])
 
     useEffect(() => {
         if(mes) Swal.fire('Có lỗi', mes, 'info').then(() => {
-            dispatch(clearMessage())
-            navigate(`/${path.LOGIN}`)
+            props.dispatch(clearMessage())
+            props.navigate(`/${path.LOGIN}`)
         })
     },[mes])
 
@@ -42,7 +42,7 @@ const TopHeader = () => {
                             {`Xin chào, ${current && current.firstname} ${current && current.lastname}`}
                         </span>
                         <span 
-                            onClick={() => dispatch(logout())}
+                            onClick={() => props.dispatch(logout())}
                             className='hover:rounded-full hover:bg-gray-200 hover:text-main cursor-pointer p-2'>
                             <LuLogOut size={18}/>
                         </span>
@@ -55,4 +55,4 @@ const TopHeader = () => {
     )
 }
 
-export default memo(TopHeader)
+export default withBaseComponent(memo(TopHeader))

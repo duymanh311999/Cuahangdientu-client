@@ -1,18 +1,16 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, memo } from 'react';
 import { InputField, Button, Loading} from 'components';
 import { apiRegister, apiLogin, apiForgotPassword, apiFinalRegister } from 'apis';
 import Swal from 'sweetalert2';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import path from 'ultils/path';
 import { login } from 'store/user/userSlice';
-import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { validate } from 'ultils/helpers';
 import {showModal} from 'store/app/appSlice';
+import withBaseComponent from 'hocs/withBaseComponent';
   
-const Login = () => {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+const Login = (props) => {
     const [payload, setPayload] = useState({
         email: '',
         password: '',
@@ -51,9 +49,9 @@ const Login = () => {
         const invalids = isRegister ? validate(payload, setInvalidFields) : validate(data, setInvalidFields);
         if(invalids === 0){
             if(isRegister){
-                dispatch(showModal({isShowModal: true, modalChildren: <Loading/>}))
+                props.dispatch(showModal({isShowModal: true, modalChildren: <Loading/>}))
                 const response = await apiRegister(payload)
-                dispatch(showModal({isShowModal: false, modalChildren: null}))
+                props.dispatch(showModal({isShowModal: false, modalChildren: null}))
                 if(response.success){
                     setIsVerifiedEmail(true)
                 }else{
@@ -61,12 +59,12 @@ const Login = () => {
                 }
                 
             }else{
-                dispatch(showModal({isShowModal: true, modalChildren: <Loading/>}))
+                props.dispatch(showModal({isShowModal: true, modalChildren: <Loading/>}))
                 const rs = await apiLogin(data)
-                dispatch(showModal({isShowModal: false, modalChildren: null}))
+                props.dispatch(showModal({isShowModal: false, modalChildren: null}))
                 if( rs.success){
-                    dispatch(login({isLoggedIn: true, token: rs.accessToken, userData: rs.userData}))
-                    navigate(`/${path.HOME}`)  
+                    props.dispatch(login({isLoggedIn: true, token: rs.accessToken, userData: rs.userData}))
+                    props.navigate(`/${path.HOME}`)  
                 }else{
                     Swal.fire('Đăng nhập thất bại', rs.message,'error')
                 }
@@ -87,7 +85,7 @@ const Login = () => {
        setIsVerifiedEmail(false)
        setToken('')
     }
-
+    console.log(props)
     return(
         <div className='w-full h-screen relative'>
             {isVerifiedEmail && <div className='absolute top-0 left-0 bottom-0 right-0 bg-overlay z-50 flex flex-col items-center justify-center'> 
@@ -216,4 +214,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default withBaseComponent(memo(Login))

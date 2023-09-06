@@ -10,7 +10,7 @@ import { showModal } from 'store/app/appSlice';
 import Swal from 'sweetalert2';
 import { getBase64 } from 'ultils/helpers';
 
-const CustomizeVarriants = ({customizeVarriants, setCustomizeVarriants, render}) => {
+const CustomizeVarriants = ({customizeVarriants, setCustomizeVarriants}) => {
     const dispatch = useDispatch()
     const {register, handleSubmit, formState:{errors}, reset, watch} = useForm();
     const [preview, setPreview] = useState({
@@ -84,7 +84,6 @@ const CustomizeVarriants = ({customizeVarriants, setCustomizeVarriants, render})
         }    
      },[watch('images')])
 
-     
 
     return(
         <div className='w-full flex flex-col gap-4 relative'>

@@ -1,3 +1,4 @@
+import withBaseComponent from 'hocs/withBaseComponent';
 import React, { memo } from 'react';
 import { useDispatch } from 'react-redux';
 import { showModal } from 'store/app/appSlice'
@@ -13,4 +14,4 @@ const Modal = ({children}) => {
     )
 }
 
-export default memo(Modal)    
+export default withBaseComponent(memo(Modal))   

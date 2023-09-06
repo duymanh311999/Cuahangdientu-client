@@ -237,6 +237,37 @@ export const adminSidebar = [
     },
 ]
 
+export const memberSidebar = [
+    {
+        id:1,
+        type: 'SINGLE',
+        text:'Quản lý chung',
+        path:`/${path.MEMBER}/${path.PERSONAL}`,
+        icon: <MdOutlineManageAccounts size={20}/>
+    },
+    {
+        id:2,
+        type: 'SINGLE',
+        text:'Giỏ hàng',
+        path:`/${path.MEMBER}/${path.MY_CART}`,
+        icon: <MdGroups2 size={20}/>
+    },
+    {
+        id:3,
+        type: 'SINGLE',
+        text:'Lịch sử mua hàng',
+        path:`/${path.MEMBER}/${path.HISTORY}`,
+        icon: <RiBillLine size={20}/>
+    },
+    {
+        id:3,
+        type: 'SINGLE',
+        text:'Sản phẩm đã lưu',
+        path:`/${path.MEMBER}/${path.WISHLIST}`,
+        icon: <RiBillLine size={20}/>
+    },
+]
+
 export const roles = [
     {
         code: 1999,

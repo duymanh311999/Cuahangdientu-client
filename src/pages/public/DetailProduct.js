@@ -133,7 +133,7 @@ const DetailProduct = () => {
                     </div>
                     <div className='w-458px'>
                         <Slider {...settings} className='image-slider items-start'>
-                            {!currentProduct?.images?.length === 0 && product?.images.map(item => (
+                            {currentProduct.images.length === 0 && product?.images.map(item => (
                                 <div className='flex w-full' key={item}>
                                     <img                    
                                         src={item} 
@@ -143,7 +143,7 @@ const DetailProduct = () => {
                                     />
                                 </div>
                             ))}
-                             {currentProduct?.images?.length > 0 && currentProduct.images?.map(item => (
+                             {currentProduct.images.length > 0 && currentProduct.images?.map(item => (
                                 <div className='flex w-full' key={item}>
                                     <img                    
                                         src={item} 
