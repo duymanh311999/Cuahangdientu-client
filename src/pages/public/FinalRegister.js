@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import path from '../../ultils/path';
 import Swal from 'sweetalert2';
@@ -26,4 +26,4 @@ const FinalRegister = () => {
     )
 }
 
-export default FinalRegister
+export default memo(FinalRegister)

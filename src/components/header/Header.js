@@ -6,9 +6,10 @@ import path from 'ultils/path';
 import { useSelector } from 'react-redux';
 import { logout } from 'store/user/userSlice';
 import withBaseComponent from 'hocs/withBaseComponent';
+import { showCart } from 'store/app/appSlice';
 
 const {RiPhoneFill, MdEmail, BsHandbagFill, FaUserCircle } = icons
-const Header = (props) => {
+const Header = ({dispatch}) => {
     const {current} = useSelector(state => state.user);
     const [isShowOption, setIsShowOption] = useState(false);
     useEffect(() => {
@@ -43,9 +44,9 @@ const Header = (props) => {
                     <span>Hỗ trợ 24/7</span>
                 </div>
                 {current && <Fragment>
-                    <div className='flex items-center px-6 border-r justify-center gap-2 cursor-pointer'>
+                    <div onClick={() => dispatch(showCart())} className='flex items-center px-6 border-r justify-center gap-2 cursor-pointer'>
                         <BsHandbagFill color='red'/>
-                        <span>0 sản phẩm(s)</span>
+                        <span>{`${current?.cart?.length || 0} sản phẩm`}</span>
                     </div>
                     <div 
                         className='flex items-center px-6 justify-center gap-2 cursor-pointer relative'
@@ -62,7 +63,7 @@ const Header = (props) => {
                             <Link className='p-2 w-full hover:bg-sky-100' to={`/${path.ADMIN}/${path.DASHBOARD}`}>Trang quản trị</Link>}
                             <span 
                                 className='p-2 w-full hover:bg-sky-100'
-                                onClick={() => props.dispatch(logout())}
+                                onClick={() => dispatch(logout())}
                             >Đăng xuất</span>
                         </div>  }                  
                     </div>

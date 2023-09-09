@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect, memo } from 'react';
 import { InputField, Button, Loading} from 'components';
 import { apiRegister, apiLogin, apiForgotPassword, apiFinalRegister } from 'apis';
 import Swal from 'sweetalert2';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import path from 'ultils/path';
 import { login } from 'store/user/userSlice';
 import { toast } from 'react-toastify';
@@ -22,6 +22,7 @@ const Login = (props) => {
     const [invalidFields, setInvalidFields] = useState([]);
     const [isRegister, setIsRegister] = useState(false);
     const [isForgotPassword, setIsForgotPassword] = useState(false)
+    const [searchParams] = useSearchParams();
     const resetPayload = () => {
         setPayload({
             email: '',
@@ -64,7 +65,7 @@ const Login = (props) => {
                 props.dispatch(showModal({isShowModal: false, modalChildren: null}))
                 if( rs.success){
                     props.dispatch(login({isLoggedIn: true, token: rs.accessToken, userData: rs.userData}))
-                    props.navigate(`/${path.HOME}`)  
+                    searchParams.get('redirect') ? props.navigate(searchParams.get('redirect')) : props.navigate(`/${path.HOME}`)  
                 }else{
                     Swal.fire('Đăng nhập thất bại', rs.message,'error')
                 }

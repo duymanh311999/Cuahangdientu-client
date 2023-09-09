@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import {useParams, useSearchParams, useNavigate, createSearchParams} from 'react-router-dom';
 import { Breadcrumb, Product, SearchItem, InputSelect, Pagination } from '../../components';
 import { apiGetProducts } from '../../apis';
@@ -19,14 +19,14 @@ const Products = () => {
     const [activeClick, setActiveClick] = useState(null);
     const [sort, setSort] = useState('');
     const [params] = useSearchParams();
+    const {category} = useParams();
+
     const fetchProductsByCategory = async (queries) => {
-        const response = await apiGetProducts(queries)
+        const response = await apiGetProducts({...queries, category})
         if(response.success){
             setProducts(response)
         }
     }
-
-    const {category} = useParams();
 
     useEffect(() => {
         const queries = Object.fromEntries([...params])
@@ -137,4 +137,4 @@ const Products = () => {
     )
 }
 
-export default Products
+export default memo(Products)

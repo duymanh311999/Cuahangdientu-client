@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useState} from 'react';
 import { Button } from '../../components';
 import {useParams} from 'react-router-dom';
 import { apiResetPassword } from '../../apis';
@@ -42,4 +42,4 @@ const ResetPassword = () => {
     )
 }
 
-export default ResetPassword
+export default memo(ResetPassword)

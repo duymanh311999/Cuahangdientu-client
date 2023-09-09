@@ -47,6 +47,7 @@ const Personal = () => {
                     <label htmlFor='file'>
                         <img 
                             src={current?.avatar || avatar} 
+                            title='Thay đổi ảnh đại diện' 
                             alt='avatar' 
                             className='w-20 h-20 ml-8 object-cover rounded-full cursor-pointer hover:opacity-25 duration-300' 
                         />

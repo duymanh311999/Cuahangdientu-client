@@ -5,10 +5,10 @@ export const productSlice = createSlice({
     name: 'product',
     initialState: {
         newProducts: null,
-        errorMessage: ''
+        errorMessage: '',
     },
     reducers: {
-    
+
     },
      // Code logic xử lý async action
   extraReducers: (builder) => {

@@ -9,4 +9,4 @@ const withBaseComponent = (Component) => (props) => {
   
     return <Component {...props} navigate={navigate} dispatch={dispatch} location={location}/>
 }
-export default withBaseComponent
+export default withBaseComponent   

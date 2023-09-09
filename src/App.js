@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import { Route, Routes } from 'react-router-dom';
 import {
-  Login,
+  Login, DetailCart,
   Home, 
   Public, 
   FAQ, 
@@ -18,17 +18,21 @@ import { getCategories } from 'store/app/asyncActions';
 import {useDispatch, useSelector} from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Modal } from 'components';
+import { Cart, Modal } from 'components';
+import { showCart } from 'store/app/appSlice';
 
 function App() {
   const dispatch = useDispatch();
-  const {isShowModal, modalChildren} = useSelector(state => state.app)
+  const {isShowModal, modalChildren, isShowCart} = useSelector(state => state.app)
   useEffect(() => {
     dispatch(getCategories())
   },[])
   return (
-    <div className="font-main relative">
-        {isShowModal && <Modal>{modalChildren}</Modal>}
+    <div className="font-main h-screen relative">
+      {isShowCart && <div onClick={() => dispatch(showCart())} className='absolute inset-0 bg-overlay z-50 flex justify-end'>
+        <Cart/>
+      </div>}   
+      {isShowModal && <Modal>{modalChildren}</Modal>}
       <Routes>
         <Route path={path.PUBLIC} element={<Public/>}>
             <Route path={path.HOME} element={<Home/>}/>  
@@ -38,14 +42,15 @@ function App() {
             <Route path={path.OUR_SERVICES} element={<Services/>}/>        
             <Route path={path.PRODUCTS} element={<Products/>}/>
             <Route path={path.RESET_PASSWORD} element={<ResetPassword/>}/>
+            <Route path={path.DETAIL_CART} element={<DetailCart/>}/>
             <Route path={path.ALL} element={<Home/>}/>  
         </Route>
-        <Route path={path.ADMIN} element={<AdminLayout/>}>
+        <Route path={path.ADMIN} element={<AdminLayout/>}> 
           <Route path={path.DASHBOARD} element={<Dashboard/>}/> 
           <Route path={path.MANAGE_ORDER} element={<ManageOrder/>}/> 
           <Route path={path.MANAGE_PRODUCTS} element={<ManageProduct/>}/> 
           <Route path={path.MANAGE_USER} element={<ManageUser/>}/> 
-          <Route path={path.CREATE_PRODUCTS} element={<CreateProduct/>}/> 
+          <Route path={path.CREATE_PRODUCTS} element={<CreateProduct/>}/>   
         </Route>
         <Route path={path.MEMBER} element={<MemberLayout/>}>
           <Route path={path.PERSONAL} element={<Personal/>}/> 
